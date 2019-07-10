@@ -13,7 +13,7 @@ public class UIDragHandler : MonoBehaviour ,IBeginDragHandler, IDragHandler,IEnd
 
     public void OnBeginDrag(PointerEventData eventData)
     {
-        itemBeingDragged = Instantiate (gameObject,transform.position, transform.rotation,transform.parent);
+        itemBeingDragged = gameObject; // Instantiate (gameObject,transform.position, transform.rotation,transform.parent);
         startPosition = transform.position;
         startParent = transform.parent;
         GetComponent<CanvasGroup>().blocksRaycasts = false;

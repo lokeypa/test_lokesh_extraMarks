@@ -19,12 +19,39 @@ public class Slot : MonoBehaviour, IDropHandler
     #region IDropHandler implementation
     public void OnDrop(PointerEventData eventData)
     {
-       // if (!item)
+        // if (!item)
         {
-            UIDragHandler.itemBeingDragged.transform.SetParent(transform.GetChild(0).GetChild(0));
-            UIDragHandler.itemBeingDragged.GetComponent<UIDragHandler>().enabled = false;
-            UIDragHandler.itemBeingDragged.GetComponent<CanvasGroup>().enabled = false;
-            ExecuteEvents.ExecuteHierarchy<IHasChanged>(gameObject, null, (x, y) => x.HasChanged());
+            Debug.Log("On drop called!!");
+            if (UIDragHandler.itemBeingDragged != null)
+            {
+            GameObject previousObject = UIDragHandler.itemBeingDragged.gameObject;
+                GameObject tempObject = Instantiate(previousObject, previousObject.transform.position, previousObject.transform.rotation, previousObject.transform.parent); ;
+                tempObject.transform.SetParent(transform.GetChild(0).GetChild(0));
+                tempObject.GetComponent<UIDragHandler>().enabled = false;
+                tempObject.GetComponent<CanvasGroup>().enabled = false;
+                switch (tempObject.tag)
+                {
+                    case "FwdArrow":
+                        {
+                            GameplayManager.s_Instance.lst_MotionQueue.Add(MotionType.moveFwd);
+
+                        }
+                        break;
+                    case "RightArrow":
+                        {
+                            GameplayManager.s_Instance.lst_MotionQueue.Add(MotionType.rotateRight);
+
+                        }
+                        break;
+                    case "LeftArrow":
+                        {
+                            GameplayManager.s_Instance.lst_MotionQueue.Add(MotionType.rotateLft);
+
+                        }
+                        break;
+                }
+                ExecuteEvents.ExecuteHierarchy<IHasChanged>(gameObject, null, (x, y) => x.HasChanged());
+            }
         }
     }
     #endregion

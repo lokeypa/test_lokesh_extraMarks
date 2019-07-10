@@ -15,28 +15,18 @@ public class GameplayManager : MonoBehaviour
         }
     }
 
-    private void Start()
-    {
-        AddMotionToList(MotionType.moveFwd);
-        AddMotionToList(MotionType.rotateLft);
-        AddMotionToList(MotionType.moveFwd);
-        AddMotionToList(MotionType.rotateRight);
-        AddMotionToList(MotionType.moveFwd);
-        AddMotionToList(MotionType.rotateRight);
-        AddMotionToList(MotionType.moveFwd);
-        AddMotionToList(MotionType.moveFwd);
-        AddMotionToList(MotionType.moveFwd);
-        AddMotionToList(MotionType.moveFwd);
-        AddMotionToList(MotionType.moveFwd);
-
-        StartExecution();
-    }
-
-
     public void StartExecution()
     {
-        StartCoroutine(PlayerMovement.s_Instance.StartExecution(1.25f));
+        if (lst_MotionQueue.Count != 0)
+            StartCoroutine(PlayerMovement.s_Instance.StartExecution(1.25f));
+        else
+            Debug.LogError("phele drag to kro!!");
 
+    }
+
+    public void ResetGame()
+    {
+        UnityEngine.SceneManagement.SceneManager.LoadScene(0);
     }
 
     public void AddMotionToList(MotionType motionType)

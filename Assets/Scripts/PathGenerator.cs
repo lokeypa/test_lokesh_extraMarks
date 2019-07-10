@@ -10,7 +10,7 @@ public class PathGenerator : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        GenerateGridOfSize(20);
+        GenerateGridOfSize(8);
     }
 
     // Update is called once per frame
@@ -31,6 +31,7 @@ public class PathGenerator : MonoBehaviour
             {
                 lst_GroundUnits.Add(Instantiate(groundUnit,transform));
                 lst_GroundUnits[j].GetComponent<MeshRenderer>().material = mat_cubeBoarder;
+                lst_GroundUnits[j].tag = "NonWalkable";
 
                 //if (i < 2)
                 //{

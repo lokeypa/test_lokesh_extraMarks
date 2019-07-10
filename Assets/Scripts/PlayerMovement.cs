@@ -1,10 +1,12 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerMovement : MonoBehaviour
 {
     public static PlayerMovement s_Instance;
+    public GameObject finalPanel;
 
     private void Awake()
     {
@@ -24,7 +26,7 @@ public class PlayerMovement : MonoBehaviour
 
     IEnumerator DoMotionOfPlayer(MotionType motionType)
     {
-        yield return new WaitForSeconds(1.5f);
+        yield return new WaitForSeconds(1.25f);
         switch (motionType)
         {
             case MotionType.moveFwd:
@@ -44,6 +46,26 @@ public class PlayerMovement : MonoBehaviour
                     transform.Rotate(0,90,0);
                 }
                 break;
+        }   
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("NonWalkable"))
+        {
+            //los the game.
+            Debug.Log("you lost!");
+            finalPanel.SetActive(true);
+            finalPanel.transform.GetChild(0).GetComponent<Text>().text = "You Lost!!!";
+
+        }
+
+        else if(collision.gameObject.CompareTag("Goal"))
+        {
+            //win the game.
+            Debug.Log("you won!");
+            finalPanel.SetActive(true);
+            finalPanel.transform.GetChild(0).GetComponent<Text>().text = "You Won!!!";
         }
     }
 }
